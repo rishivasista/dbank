@@ -1,13 +1,18 @@
 import {
-  dbank
-} from "../../declarations/dbank";
+  dbank, dbank1_backend
+} from "../../declarations/dbank1_backend";
 
 
 window.addEventListener("load", async () => {
-  dbank.compound();
+  dbank1_backend.compound();
   await update(); 
 });
 
+setInterval(()=>{
+  location.reload();
+  dbank1_backend.compound();
+  update();
+}, 60000);
 
 document.querySelector("form").addEventListener("submit", async (event) => {
   // console.log("Submitted");
@@ -19,12 +24,12 @@ document.querySelector("form").addEventListener("submit", async (event) => {
   button.setAttribute("disabled", true);
   
   if(document.getElementById("input-amount").value.length!=0)
-      await dbank.topUp(inputAmount);
+      await dbank1_backend.topUp(inputAmount);
   
   if(document.getElementById("withdrawal-amount").value.length!=0)
-      await dbank.withdraw(outputAmount);
+      await dbank1_backend.withdraw(outputAmount);
   
-  await dbank.compound();
+  await dbank1_backend.compound();
   await update();
   document.getElementById("input-amount").value = "";
   document.getElementById("withdrawal-amount").value = "";
@@ -34,6 +39,6 @@ document.querySelector("form").addEventListener("submit", async (event) => {
 });
 
 async function update(){
-  const currentAmount = await dbank.checkBalance();
+  const currentAmount = await dbank1_backend.checkBalance();
   document.getElementById("value").innerText = currentAmount.toFixed(2);
 }

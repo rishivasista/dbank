@@ -10,6 +10,7 @@ actor DBank {
   // Creating new canister
   stable var currentValue:Float = 300;
   
+
   public func topUp(amount : Float) {
     currentValue += amount; 
   };
@@ -30,7 +31,7 @@ actor DBank {
   public func compound(){
     let currentTime = Time.now();
     let elapsedTimeNS = currentTime - startTime;
-    let elapsedTimeS = elapsedTimeNS / 1000000000;
+    let elapsedTimeS = (elapsedTimeNS / 60000000000);
     currentValue := currentValue * (1.01 ** Float.fromInt(elapsedTimeS));
     startTime := currentTime;
   }; 
